@@ -1,0 +1,11 @@
+import = ["~/.config/alacritty/themes/themes/monokai_charcoal.toml"]
+
+live_config_reload = true
+
+[window]
+decorations = "full"
+decorations_theme_variant = "None"
+dynamic_title = true
+opacity = 0.8
+startup_mode = "Windowed"
+title = "Alacritty"
