@@ -1,0 +1,38 @@
+[user]
+  email = Benjamin.Watson@kiewit.com
+  ; email = bwatson1979@gmail.com
+	name = Ben Watson
+[credential]
+	helper = store
+[push]
+	default = simple
+
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+	ui = auto
+	pager = true
+
+[color "status"]
+	header = blue
+	added = green
+	changed = red bold
+	branch = cyan bold
+	nobranch = red bold
+	localBranch = green
+	remoteBranch = yellow
+[gitflow "prefix"]
+	hotfix = hotfix-
+	feature = feature-
+	bugfix = bugfix-
+	release = release-
+	support = support-
+[cola]
+	spellcheck = false
+[pull]
+	rebase = false
+  ; ff = only
+[init]
+	defaultBranch = master
