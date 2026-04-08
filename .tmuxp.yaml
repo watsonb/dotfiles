@@ -1,0 +1,19 @@
+---
+
+session_name: dotfiles
+start_directory: ./
+windows:
+  - window_name: dotfiles
+    # this is kind of what I want, but there are bugs
+    # layout: main-horizontal
+    # options:
+    #   main-pane-height: '50%'
+    # this is what I'm using based on exporting a layout I like
+    # see https://leanpub.com/the-tao-of-tmux/read#window-layouts
+    layout: "88ad,213x57,0,0[213x42,0,0,1,213x14,0,43,2]"
+    panes:
+      - shell_command:
+          - nvim .
+        focus: true
+      - shell_command:
+          - stow --version
