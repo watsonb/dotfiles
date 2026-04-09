@@ -1,0 +1,81 @@
+-- return {
+--   -- "linux-cultist/venv-selector.nvim",
+--   -- lazy = false,
+--   -- branch = "regexp",
+--   -- -- enabled = false,
+--   -- dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim", "mfussenegger/nvim-dap-python" },
+--   -- -- opts = {
+--   -- --   -- TODO: convince plugin maintainer to modify regex for a "starts-with"
+--   -- --   -- name = {
+--   -- --   --   "venv3_ansible-4.3.0",
+--   -- --   --   "venv3_ansible-7.4.0",
+--   -- --   --   "venv3_ansible_builder-3.0.0.0b1",
+--   -- --   --   "venv3_ansible_navigator-3.3.0",
+--   -- --   --   "venv3_ansible_rulebook-1.0.2",
+--   -- --   --   "venv3_eda_snow",
+--   -- --   --   "venv3_eda_scom",
+--   -- --   --   "venv_pymgit",
+--   -- --   -- },
+--   -- --   auto_refresh = true,
+--   -- --   fd_binary_name = "fdfind",
+--   -- --   -- name = "venvtest",
+--   -- --   dap_enabled = true,
+--   -- --   path = "~/venvs",
+--   -- --   parents = 0,
+--   -- --   enable_debug_output = true,
+--   -- --   search_venv_managers = false,
+--   -- --   search_workspace = false,
+--   -- --   search = true,
+--   -- --   notify_user_on_activate = true,
+--   -- -- },
+--   -- options = {
+--   --   on_venv_activate_callback = nil, -- callback function for after a venv activates
+--   --   enable_default_searches = true, -- switches all default searches on/off
+--   --   enable_cached_venvs = true, -- use cached venvs that are activated automatically when a python file is registered with the LSP.
+--   --   cached_venv_automatic_activation = true, -- if set to false, the VenvSelectCached command becomes available to manually activate them.
+--   --   activate_venv_in_terminal = true, -- activate the selected python interpreter in terminal windows opened from neovim
+--   --   set_environment_variables = true, -- sets VIRTUAL_ENV or CONDA_PREFIX environment variables
+--   --   notify_user_on_venv_activation = false, -- notifies user on activation of the virtual env
+--   --   search_timeout = 5, -- if a search takes longer than this many seconds, stop it and alert the user
+--   --   debug = true, -- enables you to run the VenvSelectLog command to view debug logs
+--   --   fd_binary_name = "fdfind", -- plugin looks for `fd` or `fdfind` but you can set something else here
+--   --   require_lsp_activation = true, -- require activation of an lsp before setting env variables
+
+--   --   -- telescope viewer options
+--   --   on_telescope_result_callback = nil, -- callback function for modifying telescope results
+--   --   show_telescope_search_type = true, -- shows which of the searches found which venv in telescope
+--   --   telescope_filter_type = "substring", -- when you type something in telescope, filter by "substring" or "character"
+--   --   telescope_active_venv_color = "#00FF00", -- The color of the active venv in telescope
+--   --   picker = "auto", -- The picker to use. Valid options are "telescope", "fzf-lua", "native", or "auto"
+--   -- },
+--   -- -- event = "VeryLazy",
+
+--   "linux-cultist/venv-selector.nvim",
+--   dependencies = {
+--     "neovim/nvim-lspconfig",
+--     "mfussenegger/nvim-dap",
+--     "mfussenegger/nvim-dap-python", --optional
+--     { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+--   },
+--   lazy = false,
+--   branch = "regexp", -- This is the regexp branch, use this for the new version
+--   keys = {
+--     { ",v", "<cmd>VenvSelect<cr>" },
+--   },
+--   ---@type venv-selector.Config
+--   opts = {
+--     -- Your settings go here
+--     debug = true,
+--     search = {
+--       cwd = false,
+--       workspace = false,
+--       search_timeout = 10,
+--       debug = true,
+--       enable_default_searches = false,
+--       my_venvs = {
+--         command = "fdfind '/bin/python$' ~/venvs --full-path -IHL",
+--       },
+--     },
+--   },
+-- }
+return {}

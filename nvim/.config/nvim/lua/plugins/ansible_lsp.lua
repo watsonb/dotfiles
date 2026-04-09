@@ -1,0 +1,56 @@
+return {
+  -- "neovim/nvim-lspconfig",
+  -- opts = {
+  --   servers = {
+  --     ansiblels = {
+  --       -- root_dir = require("lspconfig.util").root_pattern("ansible.cfg", ".ansible-lint", ".git", "inventory"),
+  --       root_dir = function(fname)
+  --         local util = require("lspconfig.util")
+  --         return util.root_pattern("ansible.cfg", ".ansible-lint", ".git", "inventory")(fname) or vim.uv.cwd()
+  --       end,
+  --       settings = {
+  --         ansible = {
+  --           ansible = {
+  --             path = "ansible", -- default value: ansible
+  --             useFullyQualifiedCollectionNames = true, -- default value: false
+  --           },
+  --           python = {
+  --             interpreterPath = "python3",
+  --             activtionScript = "",
+  --           },
+  --           executionEnvironment = {
+  --             containerEngine = "podman", -- default value: "docker"
+  --             enabled = false, -- default value: false
+  --             -- image = "ghcr.io/ansible/ansible-dev-tools:latest",  -- default value: "ansible/ansible-lint:latest"
+  --             image = "ghcr.io/ansible/community-ansible-dev-tools:latest", -- default value: "ansible/ansible-lint:latest"
+  --             pull = {
+  --               policy = "missing", -- default value: "missing"
+  --               arguments = {
+  --                 "--tls-verify=false", -- default value: [""]
+  --               },
+  --             },
+  --             volumeMounts = {},
+  --             containerOptions = "",
+  --           },
+  --           completion = {
+  --             provideRedirectModules = true,
+  --             provideModuleOptionAliases = true,
+  --           },
+  --           validation = {
+  --             enabled = true,
+  --             lint = {
+  --               enabled = true,
+  --               arguments = "",
+  --               -- arguments = {
+  --               --   "--format",
+  --               --   "codeclimate",
+  --               -- },
+  --               path = "ansible-lint",
+  --             },
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
+}

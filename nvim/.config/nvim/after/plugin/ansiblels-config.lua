@@ -1,0 +1,120 @@
+-- Configure the ansiblels language server
+--
+-- Old linting issue:
+-- I'm beginning to think this is unnecessary, but don't know how to fix the linting errors.  If you look at LSP
+-- logs in ~/.local/state/nvim/lsp.log without any of this, you'll see the lint output appears to be stdout human
+-- readable, which is obviously not consumable by LSP client.  All of this is an attempt to force a JSON output
+-- format, but attempts to do so seem to break the LSP server.  See some code implementation here:
+-- https://github.com/ansible/vscode-ansible/blob/2a9931776c0bd4db87627ad8b1af6648d6a223cb/packages/ansible-language-server/src/services/ansibleLint.ts#L56
+--
+-- Also, WTF about all of this is unique to having issues linting Ansible role project, but not playbook projects or
+-- seemingly anything else that is registered as an "ansible" document type.
+--
+-- The fix for linting roles was to create another directory (e.g. rolez) and work
+-- out of that.  Apparently "roles" as a directory name was causing the issue
+--
+-- New 2026 issue:
+-- My current/daily is Ubuntu 22.04 with Neovim 0.12.x and leveraging the LazyVim
+-- distro as much as possible.  The `ansiblels` LSP integration works, but
+-- it is limited to the "currently active" Ansible venv.  In my case, this is
+-- Ansible 9.4.0 which is about 2 years old.  In order to keep my Ansible venvs
+-- for execution but have a more up-to-date Ansible/collection reference for LSP
+-- stuff, I'd like to look into using an EE.  It would be coold if I could use
+-- Ansible Dev Tools as both a local Ansible environment, an EE, and an LSP
+-- engine.  But for now, just as an LSP would be nice.
+--
+-- Also, why does Copilot completion work in this file (*.lua) but not in my
+-- Ansible yaml files?
+--
+-- The below config seems to load along side a default config.  Is this due to
+-- this config being in after/plugin/?  Even though the below "loads" and I
+-- can see the details when `:checkhealth vim.lsp`, I don't think it is actually
+-- pulling the EE image at editor time.  I had to manually `podman pull` the
+-- image, and now I see it in the list.  This may be for _only_ running Ansible
+-- content via the LSP.
+--
+-- An alternative is that I could make another venv with a more modern Ansible
+-- installed (that would presumably have more up-to-date collections) and
+-- specify the python path below to that venv such that my "daily" venv could
+-- be different than my "editor" venv.
+-- require("lspconfig").ansiblels.setup({
+--   -- Add any other configurations for ansiblels here
+--   -- Example: Add custom arguments to ansible-lint
+--   -- cmd = require("devcontainers").lsp_cmd({ "ansible-language-server", "--stdio" }),
+--   -- filetypes = { "yaml.ansible" },
+--   -- root_dir = require("lspconfig.util").root_pattern("ansible.cfg", ".ansible-lint", ".git"),
+--   root_dir = function(fname)
+--     local util = require("lspconfig.util")
+--     return util.root_pattern("ansible.cfg", ".ansible-lint", ".git", "inventory")(fname) or vim.uv.cwd()
+--   end,
+--
+--   -- settings = {
+--   --   ansible = {
+--   --     ansible = {
+--   --       path = "ansible", -- default value: ansible
+--   --       useFullyQualifiedCollectionNames = true, -- default value: false
+--   --     },
+--   --     python = {
+--   --       interpreterPath = "python3",
+--   --       activtionScript = "",
+--   --     },
+--   --     executionEnvironment = {
+--   --       containerEngine = "podman", -- default value: "docker"
+--   --       enabled = false, -- default value: false
+--   --       -- image = "ghcr.io/ansible/ansible-dev-tools:latest",  -- default value: "ansible/ansible-lint:latest"
+--   --       image = "ghcr.io/ansible/community-ansible-dev-tools:latest", -- default value: "ansible/ansible-lint:latest"
+--   --       pull = {
+--   --         policy = "missing", -- default value: "missing"
+--   --         arguments = {
+--   --           "--tls-verify=false", -- default value: [""]
+--   --         },
+--   --       },
+--   --       volumeMounts = {},
+--   --       containerOptions = "",
+--   --     },
+--   --     completion = {
+--   --       provideRedirectModules = true,
+--   --       provideModuleOptionAliases = true,
+--   --     },
+--   --     validation = {
+--   --       enabled = true,
+--   --       lint = {
+--   --         enabled = true,
+--   --         arguments = "",
+--   --         -- arguments = {
+--   --         --   "--format",
+--   --         --   "codeclimate",
+--   --         -- },
+--   --         path = "ansible-lint",
+--   --       },
+--   --     },
+--   --   },
+--   -- },
+-- })
+
+-- require("lspconfig").yamlls.setup({
+--   settings = {
+--     yaml = {
+--       schemas = {
+--         ["https://raw.githubusercontent.com/ansible/ansible-lint/main/schemas/ansible.json"] = "ansible/*.y*ml",
+--         ["https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible/ansible-playbook.json"] = "*playbook*.yml",
+--         ["https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible/ansible.json"] = "ansible.y*ml",
+--         -- You can add more specific schemas here if needed.
+--       },
+--       customTags = {
+--         "!ENV scalar",
+--         "!include_dir_named mapping",
+--         "!include_dir_merge_named mapping",
+--         "!include_dir_list sequence",
+--         "!include_dir_merge_list sequence",
+--         "!vault",
+--         "!encrypted",
+--         "!secret",
+--         "!unsafe",
+--       },
+--     },
+--   },
+--   root_dir = function(fname)
+--     return require("lspconfig.util").root_pattern("ansible.cfg", "requirements.yml", ".git")(fname)
+--   end,
+-- })
