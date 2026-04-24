@@ -19,7 +19,7 @@ return {
         typescript = true,
         typescriptreact = true,
         vue = true,
-        yaml = false,
+        yaml = true,
       },
     })
     vim.cmd("colorscheme onedark")
