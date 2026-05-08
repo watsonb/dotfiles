@@ -997,7 +997,12 @@ else
   complete -F _ya -o bashdefault -o default ya
 fi
 
-# echo "bashrc done"
 export PATH=$PATH:/home/ben/.runai/bin
 source <(/home/ben/.runai/bin/runai completion bash)
 source <(/home/ben/bin/runai-adm completion bash)
+
+# A little gemini chat alias
+# Automatically saves the current project session to a dated file
+alias gsave='gemini export --format markdown > "chat-$(date +%Y-%m-%d_%H%M).md"'
+
+# echo "bashrc done"
