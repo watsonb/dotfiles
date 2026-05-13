@@ -147,7 +147,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # echo "setting up ansible..."
 # source ~/venvs/venv3_ansible-7.4.0/bin/activate
-source ~/venvs/venv3_ansible-9.4.0/bin/activate
+source ~/venvs/venv_ansible/bin/activate
 source ~/workspace/kiewit/molecule
 
 # echo "setting up java..."
