@@ -172,7 +172,7 @@ alias vi=nvim
 alias vim=nvim
 alias tldrf='tldr -l -1 | fzf --preview "tldr {1}" --preview-window=right,80% | xargs tldr -t base16'
 # export MANPAGER='nvim +Man!'
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
 
 # echo "setting up k8s..."
 export PATH=$HOME/.krew/bin:$PATH
