@@ -13,9 +13,9 @@ return {
         ["yaml.ansible"] = { name = "Ansible", icon = "" }, -- nf-seti-yaml
         ["ansible"] = { name = "Ansible", icon = "" }, -- nf-seti-yaml
       },
-      keymap = {
-        show_profile = "<leader>tp", -- Open profile with <leader>tp
-      },
+      -- keymap = {
+      --   show_profile = "<leader>tp", -- Open profile with <leader>tp
+      -- },
     })
   end,
 }
