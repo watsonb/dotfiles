@@ -1006,3 +1006,8 @@ source <(/home/ben/bin/runai-adm completion bash)
 alias gsave='gemini export --format markdown > "chat-$(date +%Y-%m-%d_%H%M).md"'
 
 # echo "bashrc done"
+export GITLAB_TOKEN="Us6Zreyx98yngW2shssc"
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/ben/.local/bin:$PATH"

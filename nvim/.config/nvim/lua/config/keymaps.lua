@@ -96,25 +96,33 @@ vim.keymap.set(
 --   { silent = true, noremap = true }
 -- )
 
--- smart splits
--- recommended mappings
--- resizing splits
--- these keymaps will also accept a range,
--- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
-vim.keymap.set("n", "<A-h>", require("smart-splits").resize_left, { desc = "resize left" })
-vim.keymap.set("n", "<A-j>", require("smart-splits").resize_down, { desc = "resize down" })
-vim.keymap.set("n", "<A-k>", require("smart-splits").resize_up, { desc = "resize up" })
-vim.keymap.set("n", "<A-l>", require("smart-splits").resize_right, { desc = "resize right" })
--- moving between splits
-vim.keymap.set("n", "<C-h>", require("smart-splits").move_cursor_left, { desc = "move cursor left" })
-vim.keymap.set("n", "<C-j>", require("smart-splits").move_cursor_down, { desc = "move cursor down" })
-vim.keymap.set("n", "<C-k>", require("smart-splits").move_cursor_up, { desc = "move cursor up" })
-vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right, { desc = "move cursor right" })
--- swapping buffers between windows
-vim.keymap.set("n", "<leader><leader>h", require("smart-splits").swap_buf_left, { desc = "swap buffer left" })
-vim.keymap.set("n", "<leader><leader>j", require("smart-splits").swap_buf_down, { desc = "swap buffer down" })
-vim.keymap.set("n", "<leader><leader>k", require("smart-splits").swap_buf_up, { desc = "swap buffer up" })
-vim.keymap.set("n", "<leader><leader>l", require("smart-splits").swap_buf_right, { desc = "swap buffer right" })
+-- smart-splits owns these outside herdr (plain terminal, tmux, wezterm, kitty).
+-- Inside a herdr pane, nvim/.config/nvim/lua/plugins/herdr-splits.lua's own `keys`
+-- table takes over <C-h/j/k/l> and <A-h/j/k/l> instead (see that file's cond).
+-- Known gap: herdr-splits.nvim has no swap_buf_* equivalent, so the
+-- <leader><leader>h/j/k/l> mappings below are simply unavailable in a herdr pane.
+-- See ai_assisted/archive/herdr_splits_nvim.claude.md for the writeup.
+if vim.env.HERDR_ENV ~= "1" then
+  -- smart splits
+  -- recommended mappings
+  -- resizing splits
+  -- these keymaps will also accept a range,
+  -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+  vim.keymap.set("n", "<A-h>", require("smart-splits").resize_left, { desc = "resize left" })
+  vim.keymap.set("n", "<A-j>", require("smart-splits").resize_down, { desc = "resize down" })
+  vim.keymap.set("n", "<A-k>", require("smart-splits").resize_up, { desc = "resize up" })
+  vim.keymap.set("n", "<A-l>", require("smart-splits").resize_right, { desc = "resize right" })
+  -- moving between splits
+  vim.keymap.set("n", "<C-h>", require("smart-splits").move_cursor_left, { desc = "move cursor left" })
+  vim.keymap.set("n", "<C-j>", require("smart-splits").move_cursor_down, { desc = "move cursor down" })
+  vim.keymap.set("n", "<C-k>", require("smart-splits").move_cursor_up, { desc = "move cursor up" })
+  vim.keymap.set("n", "<C-l>", require("smart-splits").move_cursor_right, { desc = "move cursor right" })
+  -- swapping buffers between windows
+  vim.keymap.set("n", "<leader><leader>h", require("smart-splits").swap_buf_left, { desc = "swap buffer left" })
+  vim.keymap.set("n", "<leader><leader>j", require("smart-splits").swap_buf_down, { desc = "swap buffer down" })
+  vim.keymap.set("n", "<leader><leader>k", require("smart-splits").swap_buf_up, { desc = "swap buffer up" })
+  vim.keymap.set("n", "<leader><leader>l", require("smart-splits").swap_buf_right, { desc = "swap buffer right" })
+end
 
 -- venv select
 -- vim.keymap.set("n", "<leader>vs", "<cmd>VenvSelect<cr>", { desc = "[v]env [s]elect" })
@@ -162,6 +170,49 @@ vim.keymap.set("n", "<leader><leader>l", require("smart-splits").swap_buf_right,
 --Not using rest.nvim in favor of new kalua rest client configured via lazy extras
 -- vim.keymap.set("n", "<leader>rr", "<CMD>Rest run<cr>", { desc = "Run rest request under cursor" })
 -- vim.keymap.set("n", "<leader>rl", "<CMD>Rest run last<cr>", { desc = "Re-Run last rest request" })
+
+-- herdr: launch Claude Code in its own herdr-tracked pane (sibling pane, not nested
+-- inside nvim's :terminal), so it shows up in herdr's agents sidebar. Bound to
+-- <leader>ah rather than <leader>aa so it doesn't collide with sidekick's own
+-- Claude keymap while this is being trialled. See
+-- ai_assisted/proposals/herdr_sidekick_keymap.claude.lua for the writeup.
+local function herdr_launch_agent(kind)
+  kind = kind or "claude"
+
+  local split_out = vim.fn.system({
+    "herdr", "pane", "split",
+    "--current",
+    "--direction", "right",
+    "--cwd", vim.fn.getcwd(0),
+  })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("herdr pane split failed: " .. split_out, vim.log.levels.ERROR)
+    return
+  end
+
+  local ok, decoded = pcall(vim.json.decode, split_out)
+  local pane_id = ok and decoded.result and decoded.result.pane and decoded.result.pane.pane_id
+  if not pane_id then
+    vim.notify("herdr pane split: unexpected output: " .. split_out, vim.log.levels.ERROR)
+    return
+  end
+
+  -- herdr agent start needs a name matching [a-z][a-z0-9_-]{0,31}
+  local name = (kind .. "-" .. pane_id):gsub("[^%w%-]", "-"):sub(1, 32)
+
+  local start_out = vim.fn.system({
+    "herdr", "agent", "start", name,
+    "--kind", kind,
+    "--pane", pane_id,
+  })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("herdr agent start failed: " .. start_out, vim.log.levels.ERROR)
+  end
+end
+
+vim.keymap.set("n", "<leader>ah", function()
+  herdr_launch_agent("claude")
+end, { desc = "[h]erdr: launch Claude Code in a new tracked pane" })
 
 -- strudel
 -- local strudel = require("strudel")

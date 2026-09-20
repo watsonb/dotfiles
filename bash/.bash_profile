@@ -8,3 +8,7 @@ if [ -n "$BASH_VERSION" ]; then
     . "$HOME/.bashrc"
   fi
 fi
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/ben/.local/bin:$PATH"
