@@ -1005,8 +1005,11 @@ source <(/home/ben/bin/runai-adm completion bash)
 # Automatically saves the current project session to a dated file
 alias gsave='gemini export --format markdown > "chat-$(date +%Y-%m-%d_%H%M).md"'
 
-# echo "bashrc done"
-
 # >>> Codex installer >>>
 export PATH="/home/ben/.local/bin:$PATH"
 # <<< Codex installer <<<
+
+# This is a read-only token so agents can read on-prem gitlab ci/cd status
+export GITLAB_TOKEN="Us6Zreyx98yngW2shssc"
+
+# echo "bashrc done"
