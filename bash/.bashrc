@@ -1006,3 +1006,7 @@ source <(/home/ben/bin/runai-adm completion bash)
 alias gsave='gemini export --format markdown > "chat-$(date +%Y-%m-%d_%H%M).md"'
 
 # echo "bashrc done"
+
+# >>> Codex installer >>>
+export PATH="/home/ben/.local/bin:$PATH"
+# <<< Codex installer <<<
