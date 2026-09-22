@@ -180,10 +180,14 @@ local function herdr_launch_agent(kind)
   kind = kind or "claude"
 
   local split_out = vim.fn.system({
-    "herdr", "pane", "split",
+    "herdr",
+    "pane",
+    "split",
     "--current",
-    "--direction", "right",
-    "--cwd", vim.fn.getcwd(0),
+    "--direction",
+    "right",
+    "--cwd",
+    vim.fn.getcwd(0),
   })
   if vim.v.shell_error ~= 0 then
     vim.notify("herdr pane split failed: " .. split_out, vim.log.levels.ERROR)
@@ -198,12 +202,17 @@ local function herdr_launch_agent(kind)
   end
 
   -- herdr agent start needs a name matching [a-z][a-z0-9_-]{0,31}
-  local name = (kind .. "-" .. pane_id):gsub("[^%w%-]", "-"):sub(1, 32)
-
+  local name = (kind .. "-" .. pane_id):lower():gsub("[^%w%-]", "-"):sub(1, 32)
+  print(name, kind, pane_id)
   local start_out = vim.fn.system({
-    "herdr", "agent", "start", name,
-    "--kind", kind,
-    "--pane", pane_id,
+    "herdr",
+    "agent",
+    "start",
+    name,
+    "--kind",
+    kind,
+    "--pane",
+    pane_id,
   })
   if vim.v.shell_error ~= 0 then
     vim.notify("herdr agent start failed: " .. start_out, vim.log.levels.ERROR)
