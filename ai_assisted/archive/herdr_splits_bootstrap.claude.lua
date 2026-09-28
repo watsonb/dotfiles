@@ -1,3 +1,31 @@
+-- tool: claude-code
+-- model: claude-opus-5-5
+-- date: 2026-09-28
+-- status: applied
+-- related: [nvim/.config/nvim/lua/plugins/herdr-splits.lua]
+--
+-- DROP-IN REPLACEMENT for nvim/.config/nvim/lua/plugins/herdr-splits.lua. Delete this
+-- header block when applying. Changes vs current:
+--   1. ensure_herdr_plugins(): on startup inside herdr, runs `herdr plugin list --json`
+--      asynchronously and installs (or, with herdr_bootstrap = "notify", just flags) any
+--      herdr plugin in the herdr_plugins list that's missing. herdr-splits is pinned to the
+--      commit lazy has checked out.
+--   2. auto_sync_herdr = true + build hook: keeps an EXISTING herdr-side install on the lazy
+--      commit after :Lazy update (upstream feature; it no-ops when the plugin is missing,
+--      which is why (1) is needed for a fresh box).
+--
+-- Where the list lives: ap_linux_setup's inventory `herdr_plugins` is the main installer
+-- (proposal 13_herdr_plugins). Keep this list to herdr plugins that nvim itself depends on
+-- (today, just herdr-splits). herdr plugins unrelated to nvim shouldn't depend on nvim
+-- being launched.
+--
+-- Cost: with everything installed, startup spawns `herdr plugin list` once, async (off the
+-- critical path), plus upstream's own synchronous list call from auto_sync_herdr.
+--
+-- Verified: luac -p clean. Headless nvim against an isolated empty HOME with no herdr server
+-- (herdr-splits/lazy stubbed): run 1 installed herdr-splits @ 94f30cf (= lazy-lock),
+-- run 2 did nothing.
+
 -- herdr plugins this nvim config depends on. On startup inside herdr, any that `herdr plugin
 -- list` doesn't report get installed (or just flagged, per herdr_bootstrap). The ansible
 -- playbook (ap_linux_setup herdr_plugins) is the primary installer; this catches a box
