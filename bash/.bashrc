@@ -4,12 +4,15 @@ case $- in
 *) return ;;
 esac
 
+#
+# BEGIN OHMYBASH
+#
 # Path to your oh-my-bash installation.
-export OSH='/home/ben/.oh-my-bash'
+# export OSH='/home/ben/.oh-my-bash'
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="font"
+# OSH_THEME="font"
 
 # If you set OSH_THEME to "random", you can ignore themes you don't like.
 # OMB_THEME_RANDOM_IGNORED=("powerbash10k" "wanelo")
@@ -73,7 +76,7 @@ OSH_THEME="font"
 
 # To disable the uses of "sudo" by oh-my-bash, please set "false" to
 # this variable.  The default behavior for the empty value is "true".
-OMB_USE_SUDO=true
+# OMB_USE_SUDO=true
 
 # To enable/disable display of Python virtualenv and condaenv
 # OMB_PROMPT_SHOW_PYTHON_VENV=true  # enable
@@ -83,25 +86,25 @@ OMB_USE_SUDO=true
 # Custom completions may be added to ~/.oh-my-bash/custom/completions/
 # Example format: completions=(ssh git bundler gem pip pip3)
 # Add wisely, as too many completions slow down shell startup.
-completions=(
-  ssh
-)
+# completions=(
+#   ssh
+# )
 
 # Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
 # Custom aliases may be added to ~/.oh-my-bash/custom/aliases/
 # Example format: aliases=(vagrant composer git-avh)
 # Add wisely, as too many aliases slow down shell startup.
-aliases=(
-  general
-)
+# aliases=(
+#   general
+# )
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
 # Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  bashmarks
-)
+# plugins=(
+#   bashmarks
+# )
 
 # Which plugins would you like to conditionally load? (plugins can be found in ~/.oh-my-bash/plugins/*)
 # Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
@@ -110,7 +113,7 @@ plugins=(
 #      plugins+=(tmux-autoattach)
 #  fi
 
-source "$OSH"/oh-my-bash.sh
+# source "$OSH"/oh-my-bash.sh
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -139,6 +142,9 @@ source "$OSH"/oh-my-bash.sh
 # Example aliases
 # alias bashconfig="mate ~/.bashrc"
 # alias ohmybash="mate ~/.oh-my-bash"
+#
+# END OHMYBASH
+#
 
 # echo "setting up nvm..."
 export NVM_DIR="$HOME/.nvm"
@@ -237,53 +243,53 @@ case "$PROMPT_COMMAND" in
 esac
 
 # echo "setting up dog..."
-_dog() {
-  cur=${COMP_WORDS[COMP_CWORD]}
-  prev=${COMP_WORDS[COMP_CWORD - 1]}
-
-  case "$prev" in
-  -'?' | --help | -v | --version)
-    return
-    ;;
-
-  -t | --type)
-    COMPREPLY=($(compgen -W 'A AAAA CAA CNAME HINFO MX NS PTR SOA SRV TXT' -- "$cur"))
-    return
-    ;;
-
-  --edns)
-    COMPREPLY=($(compgen -W 'disable hide show' -- "$cur"))
-    return
-    ;;
-
-  -Z)
-    COMPREPLY=($(compgen -W 'aa ad bufsize= cd' -- "$cur"))
-    return
-    ;;
-
-  --class)
-    COMPREPLY=($(compgen -W 'IN CH HS' -- "$cur"))
-    return
-    ;;
-
-  --color | --colour)
-    COMPREPLY=($(compgen -W 'always automatic never' -- $cur))
-    return
-    ;;
-  esac
-
-  case "$cur" in
-  -*)
-    COMPREPLY=($(compgen -W '$( _parse_help "$1" )' -- "$cur"))
-    return
-    ;;
-
-  *)
-    COMPREPLY=($(compgen -W 'A AAAA CAA CNAME HINFO MX NS PTR SOA SRV TXT' -- "$cur"))
-    ;;
-  esac
-} &&
-  complete -o bashdefault -F _dog dog
+# _dog() {
+#   cur=${COMP_WORDS[COMP_CWORD]}
+#   prev=${COMP_WORDS[COMP_CWORD - 1]}
+#
+#   case "$prev" in
+#   -'?' | --help | -v | --version)
+#     return
+#     ;;
+#
+#   -t | --type)
+#     COMPREPLY=($(compgen -W 'A AAAA CAA CNAME HINFO MX NS PTR SOA SRV TXT' -- "$cur"))
+#     return
+#     ;;
+#
+#   --edns)
+#     COMPREPLY=($(compgen -W 'disable hide show' -- "$cur"))
+#     return
+#     ;;
+#
+#   -Z)
+#     COMPREPLY=($(compgen -W 'aa ad bufsize= cd' -- "$cur"))
+#     return
+#     ;;
+#
+#   --class)
+#     COMPREPLY=($(compgen -W 'IN CH HS' -- "$cur"))
+#     return
+#     ;;
+#
+#   --color | --colour)
+#     COMPREPLY=($(compgen -W 'always automatic never' -- $cur))
+#     return
+#     ;;
+#   esac
+#
+#   case "$cur" in
+#   -*)
+#     COMPREPLY=($(compgen -W '$( _parse_help "$1" )' -- "$cur"))
+#     return
+#     ;;
+#
+#   *)
+#     COMPREPLY=($(compgen -W 'A AAAA CAA CNAME HINFO MX NS PTR SOA SRV TXT' -- "$cur"))
+#     ;;
+#   esac
+# } &&
+#   complete -o bashdefault -F _dog dog
 
 # echo "setting up yazi..."
 _yazi() {
@@ -1005,11 +1011,18 @@ source <(/home/ben/bin/runai-adm completion bash)
 # Automatically saves the current project session to a dated file
 alias gsave='gemini export --format markdown > "chat-$(date +%Y-%m-%d_%H%M).md"'
 
+# let's colorize ls/ll with eza
+alias ls='eza --icons --color=always'
+alias ll='eza -la --icons --color=always'
+
 # >>> Codex installer >>>
 export PATH="/home/ben/.local/bin:$PATH"
 # <<< Codex installer <<<
 
 # This is a read-only token so agents can read on-prem gitlab ci/cd status
 export GITLAB_TOKEN="Us6Zreyx98yngW2shssc"
+
+# starship
+eval "$(starship init bash)"
 
 # echo "bashrc done"
