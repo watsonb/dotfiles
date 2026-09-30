@@ -1020,7 +1020,8 @@ export PATH="/home/ben/.local/bin:$PATH"
 # <<< Codex installer <<<
 
 # This is a read-only token so agents can read on-prem gitlab ci/cd status
-export GITLAB_TOKEN="Us6Zreyx98yngW2shssc"
+# this token was rotated and will be sourced elsewhere
+# export GITLAB_TOKEN="NotIt"
 
 # starship
 eval "$(starship init bash)"
