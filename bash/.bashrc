@@ -1003,9 +1003,9 @@ else
   complete -F _ya -o bashdefault -o default ya
 fi
 
-export PATH=$PATH:/home/ben/.runai/bin
-source <(/home/ben/.runai/bin/runai completion bash)
-source <(/home/ben/bin/runai-adm completion bash)
+# export PATH=$PATH:/home/ben/.runai/bin
+# source <(/home/ben/.runai/bin/runai completion bash)
+# source <(/home/ben/bin/runai-adm completion bash)
 
 # A little gemini chat alias
 # Automatically saves the current project session to a dated file
