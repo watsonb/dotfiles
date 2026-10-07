@@ -4,6 +4,12 @@ case $- in
 *) return ;;
 esac
 
+# Unlimited history config
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+# Timestamp format as well
+export HISTTIMEFORMAT="%F %T "
+
 #
 # BEGIN OHMYBASH
 #
