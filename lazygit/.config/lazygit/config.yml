@@ -1,0 +1,33 @@
+#
+# NOTE: adding a lazygit config because I seem to trigger something that causes
+# all nvim processes to chew on CPU when I'm doing a git flow release finish
+# in lazygit.  Not sure if this is an nvim problem (e.g. LSP), an Ubuntu problem,
+# a herdr problem (others seem to have it with tmux) or a LazyGit problem.
+#
+
+git:
+  # If true, periodically fetch from remote
+  autoFetch: true
+
+  # If true, periodically refresh files and submodules
+  autoRefresh: true
+
+  # If true, poll the repo periodically for external ref changes (commits, branch
+  # updates, checkouts made outside lazygit) and refresh when one is detected.
+  # Independent of autoRefresh, which only governs the files panel.
+  autoDetectExternalChanges: true
+
+# Background refreshes
+refresher:
+  # File/submodule refresh interval in seconds.
+  # Auto-refresh can be disabled via option 'git.autoRefresh'.
+  refreshInterval: 30  # default: 10 --> I tripled to 30
+
+  # Re-fetch interval in seconds.
+  # Auto-fetch can be disabled via option 'git.autoFetch'.
+  fetchInterval: 180  # default: 60 --> I tripled to 180
+
+  # Interval in seconds at which lazygit polls for external ref changes (commits,
+  # branch updates, checkouts made outside lazygit).
+  # Detection can be disabled via option 'git.autoDetectExternalChanges'.
+  externalChangeCheckInterval: 20  # default 2 --> I changed to 20
