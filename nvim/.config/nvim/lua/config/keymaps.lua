@@ -232,3 +232,19 @@ end, { desc = "[h]erdr: launch Claude Code in a new tracked pane" })
 -- vim.keymap.set("n", "<leader><leader>ss", strudel.stop, { desc = "Stop Strudel" })
 -- vim.keymap.set("n", "<leader><leader>sb", strudel.set_buffer, { desc = "Set Strudel to current buffer" })
 -- vim.keymap.set("n", "<leader><leader>sx", strudel.execute, { desc = "Set Strudel to current buffer and update" })
+
+local function lint_whole_project()
+  -- Use built-in neovim terminal/system utilities to execute project-wide
+  local output = vim.fn.systemlist("ansible-lint --nocolor --format=pep8")
+
+  -- Clear existing list and populate with new items
+  vim.fn.setqflist({}, "r", {
+    title = "Ansible Lint Project Results",
+    lines = output,
+    efm = "%f:%l:%c: %m,%f:%l: %m",
+  })
+
+  vim.cmd("copen")
+end
+
+vim.keymap.set("n", "<leader>al", lint_whole_project, { desc = "Ansible Lint Whole Project" })
