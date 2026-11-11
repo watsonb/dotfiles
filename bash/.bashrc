@@ -1033,3 +1033,13 @@ export PATH="/home/ben/.local/bin:$PATH"
 eval "$(starship init bash)"
 
 # echo "bashrc done"
+
+# Claude Code on the shared AI Foundry (aif-ps-eus2-ans, Entra via az login). Plain `claude` stays Enterprise.
+claude-foundry() {
+  CLAUDE_CODE_USE_FOUNDRY=1 \
+  ANTHROPIC_FOUNDRY_RESOURCE=aif-ps-eus2-ans \
+  ANTHROPIC_DEFAULT_OPUS_MODEL='claude-opus-5-5[1m]' \
+  ANTHROPIC_DEFAULT_SONNET_MODEL='claude-sonnet-5-5[1m]' \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL='claude-haiku-5-5' \
+  claude "$@"
+}
